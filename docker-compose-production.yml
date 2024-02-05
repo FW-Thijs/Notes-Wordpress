@@ -20,7 +20,7 @@ services:
       - ./data:/var/lib/mysql
   
   php:
-    image: php:8.0.29-fpm-alpine
+    build: ./website
     env_file:
       - ./website/env/.env.production
     volumes:

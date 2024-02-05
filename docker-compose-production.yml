@@ -8,7 +8,33 @@ services:
       - '8080:80'
     depends_on:
       - php
+  
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: mariadb
+      MARIADB_DATABASE: mariadb
+      MARIADB_USER: mariadb
+    volumes:
+      - ./data:/var/lib/mysql
+  
   php:
-    image: php:7.3.6-fpm-alpine3.9
+    image: php:8.0.29-fpm-alpine
+    env_file:
+      - ./website/env/.env.production
     volumes:
       - ./website/bedrock:/var/www/html
+  
+  build_step:
+    container_name: "Notes-build"
+    build:
+      context: .
+      dockerfile: ./build/dockerfile
+    volumes:
+      - .:/app
+
+networks:
+  default:
+    name: aqua
+    external: true

@@ -12,6 +12,7 @@ services:
     restart: always
     environment:
       MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MARIADB_DATABASE: ${DB_DATABASE}
       MARIADB_USER: ${DB_USER}
     volumes:
@@ -23,7 +24,7 @@ services:
       - ./website/env/.env.production
     environment:
       - DB_NAME=${DB_DATABASE}
-      - DB_USER=${DB_USER
+      - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./website/bedrock:/var/www/html

@@ -2,14 +2,19 @@ version: '3'
 services:
   nginx:
     build: ./nginx
+    container_name: notes-wordpress-${ENV}
     volumes:
       - ./website/bedrock:/var/www/html
     depends_on:
       - php
+    networks:
+      - internal
+      - external
   
   mariadb:
     image: mariadb
     restart: always
+    container_name: notes-wordpress-db-${ENV}
     environment:
       MARIADB_PASSWORD: ${DB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -17,9 +22,12 @@ services:
       MARIADB_USER: ${DB_USER}
     volumes:
       - ./data:/var/lib/mysql
+    networks:
+      - internal
   
   php:
     build: ./website
+    container_name: notes-wordpress-php-${ENV}
     env_file:
       - ./website/env/.env.production
     environment:
@@ -28,16 +36,21 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./website/bedrock:/var/www/html
+    networks:
+      - internal
   
   build_step:
-    container_name: "Notes-build"
+    container_name: "notes-wordpress-build-${ENV}"
     build:
       context: .
       dockerfile: ./build/dockerfile
     volumes:
       - .:/app
+    networks:
+      - internal
 
 networks:
-  default:
+  internal:
+  external:
     name: aqua
     external: true

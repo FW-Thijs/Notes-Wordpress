@@ -29,7 +29,7 @@ services:
     build: ./website
     container_name: notes-wordpress-php-${ENV}
     env_file:
-      - ./website/env/.env.production
+      - ./website/env/.env.${ENV}
     environment:
       - DB_NAME=${DB_DATABASE}
       - DB_USER=${DB_USER}

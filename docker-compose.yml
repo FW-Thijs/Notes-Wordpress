@@ -11,7 +11,7 @@ services:
       - mariadb
   php:
     build: ./website
-    env_file: ./website/env/.env.dev
+    env_file: ./website/env/.env.DEV
     volumes:
       - ./website/bedrock:/var/www/html
   mariadb:

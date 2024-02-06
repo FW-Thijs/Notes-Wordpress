@@ -11,9 +11,9 @@ services:
     image: mariadb
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: mariadb
-      MARIADB_DATABASE: mariadb
-      MARIADB_USER: mariadb
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USER}
     volumes:
       - ./data:/var/lib/mysql
   
@@ -21,6 +21,10 @@ services:
     build: ./website
     env_file:
       - ./website/env/.env.production
+    environment:
+      - DB_NAME=${DB_DATABASE}
+      - DB_USER=${DB_USER
+      - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./website/bedrock:/var/www/html
   
